@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="990fff2a-7588-48fa-9a0a-064f851babdd" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1XFwmjG5KEV3CkqunfIot2efnSd" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../coding-challenge-deepan-anbarasan" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RunManager">
+    <configuration name="main_check" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="iGenius_Interview_assignment_Deepan_Anbarasan" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_check.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.main_check" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="990fff2a-7588-48fa-9a0a-064f851babdd" name="Default Changelist" comment="" />
+      <created>1580655311087</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1580655311087</updated>
+      <workItem from="1580655314907" duration="58000" />
+      <workItem from="1580656107497" duration="692000" />
+      <workItem from="1580656853087" duration="8842000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="468" y="117" key="FileChooserDialogImpl" timestamp="1580656565194">
+      <screen x="95" y="0" width="1185" height="720" />
+    </state>
+    <state x="468" y="117" key="FileChooserDialogImpl/95.0.1185.720@95.0.1185.720" timestamp="1580656565194" />
+    <state width="570" height="233" key="GridCell.Tab.0.bottom" timestamp="1580677551506">
+      <screen x="95" y="0" width="1185" height="720" />
+    </state>
+    <state width="570" height="233" key="GridCell.Tab.0.bottom/95.0.1185.720@95.0.1185.720" timestamp="1580677551506" />
+    <state width="570" height="233" key="GridCell.Tab.0.center" timestamp="1580677551506">
+      <screen x="95" y="0" width="1185" height="720" />
+    </state>
+    <state width="570" height="233" key="GridCell.Tab.0.center/95.0.1185.720@95.0.1185.720" timestamp="1580677551506" />
+    <state width="570" height="233" key="GridCell.Tab.0.left" timestamp="1580677551506">
+      <screen x="95" y="0" width="1185" height="720" />
+    </state>
+    <state width="570" height="233" key="GridCell.Tab.0.left/95.0.1185.720@95.0.1185.720" timestamp="1580677551506" />
+    <state width="570" height="233" key="GridCell.Tab.0.right" timestamp="1580677551506">
+      <screen x="95" y="0" width="1185" height="720" />
+    </state>
+    <state width="570" height="233" key="GridCell.Tab.0.right/95.0.1185.720@95.0.1185.720" timestamp="1580677551506" />
+    <state width="570" height="233" key="GridCell.Tab.1.bottom" timestamp="1580677551507">
+      <screen x="95" y="0" width="1185" height="720" />
+    </state>
+    <state width="570" height="233" key="GridCell.Tab.1.bottom/95.0.1185.720@95.0.1185.720" timestamp="1580677551507" />
+    <state width="570" height="233" key="GridCell.Tab.1.center" timestamp="1580677551506">
+      <screen x="95" y="0" width="1185" height="720" />
+    </state>
+    <state width="570" height="233" key="GridCell.Tab.1.center/95.0.1185.720@95.0.1185.720" timestamp="1580677551506" />
+    <state width="570" height="233" key="GridCell.Tab.1.left" timestamp="1580677551506">
+      <screen x="95" y="0" width="1185" height="720" />
+    </state>
+    <state width="570" height="233" key="GridCell.Tab.1.left/95.0.1185.720@95.0.1185.720" timestamp="1580677551506" />
+    <state width="570" height="233" key="GridCell.Tab.1.right" timestamp="1580677551506">
+      <screen x="95" y="0" width="1185" height="720" />
+    </state>
+    <state width="570" height="233" key="GridCell.Tab.1.right/95.0.1185.720@95.0.1185.720" timestamp="1580677551506" />
+    <state x="159" y="0" key="SettingsEditor" timestamp="1580656802230">
+      <screen x="95" y="0" width="1185" height="720" />
+    </state>
+    <state x="159" y="0" key="SettingsEditor/95.0.1185.720@95.0.1185.720" timestamp="1580656802230" />
+    <state x="333" y="186" key="com.intellij.ide.util.TipDialog" timestamp="1580656116156">
+      <screen x="95" y="0" width="1185" height="720" />
+    </state>
+    <state x="333" y="186" key="com.intellij.ide.util.TipDialog/95.0.1185.720@95.0.1185.720" timestamp="1580656116156" />
+    <state x="350" y="41" width="672" height="678" key="search.everywhere.popup" timestamp="1580662965623">
+      <screen x="95" y="0" width="1185" height="720" />
+    </state>
+    <state x="350" y="41" width="672" height="678" key="search.everywhere.popup/95.0.1185.720@95.0.1185.720" timestamp="1580662965623" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main_check.py</url>
+          <line>13</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/iGenius_Interview_assignment_Deepan_Anbarasan$main_check.coverage" NAME="main_check Coverage Results" MODIFIED="1580677551486" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>
