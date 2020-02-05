@@ -31,7 +31,7 @@ def return_dest_curr_value():
     """
 
     # The  parameters from the URL are fetched and saved as local variables
-    # and some input validations are performed
+
     input_amount = request.args.get('amount', default=-1.0, type=float)
     input_src_curr = request.args.get('src_currency', default='EU', type=str)
     input_dest_curr = request.args.get('dest_currency', default='EU',
@@ -39,6 +39,7 @@ def return_dest_curr_value():
     input_date = request.args.get('reference_date', default='2000-01-01',
                                   type=str)
 
+    # Some input validations are performed
     try:
         # Check date format and if the date is within the past 90 days
         ref_date = datetime.strptime(input_date, '%Y-%m-%d')
@@ -46,7 +47,6 @@ def return_dest_curr_value():
         if not (now - timedelta(days=90) <= ref_date <= now):
             return ('The reference date should be in the past '
                     '90 days')
-
     except ValueError as ve:
         return ("Date value passed should be in YYYY-mm-dd format:", ve)
 
@@ -80,7 +80,7 @@ def return_dest_curr_value():
 
     # use the parse() function to load and parse an XML file
     try:
-        tree = ET.parse("data/eurofxref-hist-90d.xml");
+        tree = ET.parse("data/eurofxref-hist-90d.xml")
     except FileNotFoundError:
         raise ("XML file not found to fetch rates to use for convention. "
                "Either place conversion file locally or check if URL for "
