@@ -125,7 +125,8 @@ def return_dest_curr_value():
                         "Conversion rate not available for the destination "
                         "currency")
         else:
-            return ("Conversion rates not available for the specified date")
+            return ("Conversion rates not available for the specified "
+                    "reference date")
 
     except ParseError as parErr:
         return (
