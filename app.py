@@ -45,10 +45,11 @@ def return_dest_curr_value():
         ref_date = datetime.strptime(input_date, '%Y-%m-%d')
         now = datetime.now()
         if not (now - timedelta(days=90) <= ref_date <= now):
-            return ('The reference date should be provided and in the past '
+            return ('The reference date should be provided and be in the past '
                     '90 days')
     except ValueError as ve:
-        return ("Date value passed should be in YYYY-mm-dd format:", ve)
+        return ("Reference date value must be passed in YYYY-mm-dd format:",
+                str(ve))
     # To make sure missing zeros don't cause issues with date format matchng
     # in XML.
     input_date = str(ref_date.date())
