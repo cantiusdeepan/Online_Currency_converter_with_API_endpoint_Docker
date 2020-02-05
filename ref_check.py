@@ -1,19 +1,38 @@
-import xml.etree.ElementTree as ET
+from datetime import datetime, timedelta
+
+from werkzeug.routing import ValidationError
 
 
 def main():
+    try:
+        ref_date = datetime.strptime('2000-10-19', '%Y-%m-%d')
+        now = datetime.now()
+        if not (now - timedelta(days=90) <= ref_date <= now):
+            print('Not within 90 days')
+            raise ValidationError('Not within 90 days')
+
+    except ValueError as ve:
+        print("Date value passed should be in YYYY-mm-dd format and within "
+              "the past 90 days:::", ve)
+
     # use the parse() function to load and parse an XML file
-    tree = ET.parse("data/eurofxref-hist-90d.xml");
-    root = tree.getroot()
-
-    # print out the document node and the name of the first child tag
-    date = root[2][0].attrib['time']
-
-    for child in root[2][0].findall(".//*[@currency='USD']"):
-        print(child.attrib)
-        print(child.tag)
-        print(child.attrib['rate'])
+    # tree = ET.parse("data/eurofxref-hist-90d.xml");
+    # try:
+    #     tree = ET.parse("data/eurofxref-hist-90da.xml");
+    # except FileNotFoundError:
+    #     return ("XML file not found to fetch rates to sue for convention. "
+    #             "Either place conversion file locally or check if URL for "
+    #             "fetching latest XML is valid")
+    # root = tree.getroot()
     #
+    # # print out the document node and the name of the first child tag
+    # date = root[2][0].attrib['time']
+    #
+    # for child in root[2][0].findall(".//*[@currency='USD']"):
+    #     print(child.attrib)
+    #     print(child.tag)
+    #     print(child.attrib['rate'])
+    # #
     # cubes = ET.getElementsByTagName("Cube")
     # counter = 0
     # for cube in cubes:

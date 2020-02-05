@@ -1,73 +1,133 @@
+import xml.etree.ElementTree as ET
+from datetime import datetime, timedelta
+from xml.etree.ElementTree import ParseError
+
+import requests
+from flask import Flask, jsonify, request
+from werkzeug.routing import ValidationError
 
 app = Flask(__name__)
-#app.config['MONGO_URI'] ='mongodb://AdminUser_IDP:MNYC_2018#19@localhost
-# :27017/tripLogs'
-
-#mongo = PyMongo(app)
-
-@app.route("/")
-def about_page():
-    return render_template('about.html', title='About')
-
-@app.route("/trips")
-def trips():
-    detected_trips= mongo.db.detected_Trips.find({})
-    response = [result for
-    result in detected_trips]
-    json_response = json.dumps(response, default=json_util.default,
-                            sort_keys=True,
-               indent=4, separators=(',', ':'))
-    return render_template("trips.html",
-        response=json_response)
-
-@app.route("/users")
-def users():
-        user_cursor = mongo.db.Users.find({},{"Password":0,"_id":0})
-        response = [result for
-                    result in user_cursor]
-        json_response = json.dumps(response, default=json_util.default,
-                                   sort_keys=True,
-                                   indent=4, separators=(',', ':'))
-        return render_template("users.html",
-                               response=response)
 
 
-import xml.dom.minidom
+@app.route("/convert", methods=['GET'])
+def return_dest_curr_value():
+    """
+    This method is called when using the 'convert' endpoint of the API for
+    converting amounts from a source currency to destination currency using
+    the rates for the past 90 days fetched from "europa.eu". The
+    method is called using a http GET request with the following four
+    parameters.
 
+    Sample URL: http://localhost:8080/convert?amount=25&reference_date=2020
+    -02-04&src_currency=USD&dest_currency=INR
 
-def main():
+    amount - The amount in source currency that needs to be converted
+    reference_date - The reference date to be used for fetching conversion
+    rates
+    src_currency - The source currency for which the amount is provided
+    dest_currency - The destination currency to which the amount will be
+    coverted
+
+    :return: The destination currency and amount in JSON format
+    """
+
+    # The  parameters from the URL are fetched and saved as local variables
+    # and some input validations are performed
+    input_amount = request.args.get('amount', default=-1.0, type=float)
+    if (input_amount <= 0.0):
+        return ('Input amount should be a positive integer or float value')
+
+    input_date = request.args.get('reference_date', default='2000-01-01',
+                                  type=str)
+    try:
+        # Check date format and if the date is within the past 90 days
+        ref_date = datetime.strptime('2000-10-19', '%Y-%m-%d')
+        now = datetime.now()
+        if not (now - timedelta(days=90) <= ref_date <= now):
+            raise ValidationError('Not within 90 days')
+
+    except ValueError as ve:
+        return ("Date value passed should be in YYYY-mm-dd format and within "
+                "the past 90 days:::", ve)
+
+    input_src_curr = request.args.get('src_currency', default='EU', type=str)
+    input_dest_curr = request.args.get('dest_currency', default='EU',
+                                       type=str)
+    if input_src_curr == 'EU' or input_dest_curr == 'EU':
+        return ("Source and destination currencies need to be provided in "
+                "three letter format e.g., USD")
+    # Fetching the latest xml file for conversion rates and saving it locally
+    # If unable to fetch latest xml, locally available file will be used
+    try:
+        r = requests.get(
+                'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist'
+                '-90d.xml')
+
+        # Raise error if response for request is an Http error
+        r.raise_for_status()
+
+        with open('data/eurofxref-hist-90d.xml', 'w') as f:
+            f.write(r.text)
+    except requests.exceptions.HTTPError as httpErr:
+        print("HTTP error raised while fetching XML:", httpErr)
+    except requests.exceptions.RequestException as reqErr:
+        # catastrophic error. bail.
+        print("Exception raised while fetching XML:", reqErr)
+    except IOError:
+        print(
+                "Could not read local XML file check -> "
+                "data/eurofxref-hist-90d.xml")
+
     # use the parse() function to load and parse an XML file
-    doc = xml.dom.minidom.parse("data/eurofxref-hist-90d.xml");
+    try:
+        tree = ET.parse("data/eurofxref-hist-90d.xml");
+    except FileNotFoundError:
+        raise ("XML file not found to fetch rates to use for convention. "
+               "Either place conversion file locally or check if URL for "
+               "fetching latest XML is valid")
 
-    # print out the document node and the name of the first child tag
-    print
-    doc.nodeName
-    print
-    doc.firstChild.tagName
+    # Initializing rates with reference to the EUR
+    src_rate_with_EUR = 1
+    dest_rate_with_EUR = 1
+    try:
+        root = tree.getroot()
+        # Fetch the part of the element tree that matches the input reference
+        # date provided. Her,e root[2] is the parent element of the dates,
+        # which in turn is the parent for the exchange rates
+        for date_child in root[2].findall(".//*[@time='" + input_date + "']")
+            # Find the source and destination rates with reference to EUR on
+            # the provided reference date
+            # No rates for EUR in XML as EUR is the reference value,
+            # so handling conversions to and from EUR using initialization
+            if input_src_curr != 'EUR':
+                for src_curr_child in date_child.findall(".//*["
+                                                         "@currency='" +
+                                                         input_src_curr +
+                                                         "']"):
+                    src_rate_with_EUR = float(src_curr_child.attrib['rate'])
+                    break
 
-    # get a list of XML tags from the document and print each one
-    expertise = doc.getElementsByTagName("expertise")
-    print
-    "%d expertise:" % expertise.length
-    for skill in expertise:
-        print
-        skill.getAttribute("name")
+            if dest_rate_with_EUR != 'EUR':
+                for dest_curr_child in date_child.findall(".//*["
+                                                          "@currency='" +
+                                                          input_dest_curr +
+                                                          "']"):
+                    dest_rate_with_EUR = float(dest_curr_child.attrib['rate'])
+                    break
+    except ParseError as parErr:
+        raise (
+            "Exception raised while parsing XML to fetch conversion rates- "
+            "check XML content or input parameter values-  reference date or "
+            "Source or destination currencies",
+            parErr)
+        # Calculate the destination currency value using fetched rates
+    dest_curr_value = round(
+            ((input_amount / src_rate_with_EUR) * dest_rate_with_EUR), 2)
 
-    # create a new XML tag and add it into the document
-    newexpertise = doc.createElement("expertise")
-    newexpertise.setAttribute("name", "BigData")
-    doc.firstChild.appendChild(newexpertise)
-    print
-    " "
-
-    expertise = doc.getElementsByTagName("expertise")
-    print
-    "%d expertise:" % expertise.length
-    for skill in expertise:
-        print
-        skill.getAttribute("name")
-
+    # Return the calculated value and currency in json format
+    return jsonify({"amount"  : dest_curr_value,
+                    "currency": input_dest_curr})
 
 
 if __name__ == '__main__':
-    app.run(host= '0.0.0.0',port=8080)
+    app.run(host='127.0.0.1', port=8080)
