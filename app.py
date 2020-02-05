@@ -94,7 +94,7 @@ def return_dest_curr_value():
         # Fetch the part of the element tree that matches the input reference
         # date provided. Her,e root[2] is the parent element of the dates,
         # which in turn is the parent for the exchange rates
-        for date_child in root[2].findall(".//*[@time='" + input_date + "']")
+        for date_child in root[2].findall(".//*[@time='" + input_date + "']"):
             # Find the source and destination rates with reference to EUR on
             # the provided reference date
             # No rates for EUR in XML as EUR is the reference value,
