@@ -4,7 +4,6 @@ from xml.etree.ElementTree import ParseError
 
 import requests
 from flask import Flask, jsonify, request
-from werkzeug.routing import ValidationError
 
 app = Flask(__name__)
 
@@ -34,25 +33,26 @@ def return_dest_curr_value():
     # The  parameters from the URL are fetched and saved as local variables
     # and some input validations are performed
     input_amount = request.args.get('amount', default=-1.0, type=float)
-    if (input_amount <= 0.0):
-        return ('Input amount should be a positive integer or float value')
-
-    input_date = request.args.get('reference_date', default='2000-01-01',
-                                  type=str)
-    try:
-        # Check date format and if the date is within the past 90 days
-        ref_date = datetime.strptime('2000-10-19', '%Y-%m-%d')
-        now = datetime.now()
-        if not (now - timedelta(days=90) <= ref_date <= now):
-            raise ValidationError('Not within 90 days')
-
-    except ValueError as ve:
-        return ("Date value passed should be in YYYY-mm-dd format and within "
-                "the past 90 days:::", ve)
-
     input_src_curr = request.args.get('src_currency', default='EU', type=str)
     input_dest_curr = request.args.get('dest_currency', default='EU',
                                        type=str)
+    input_date = request.args.get('reference_date', default='2000-01-01',
+                                  type=str)
+
+    try:
+        # Check date format and if the date is within the past 90 days
+        ref_date = datetime.strptime(input_date, '%Y-%m-%d')
+        now = datetime.now()
+        if not (now - timedelta(days=90) <= ref_date <= now):
+            return ('The reference date should be in the past '
+                    '90 days')
+
+    except ValueError as ve:
+        return ("Date value passed should be in YYYY-mm-dd format:", ve)
+
+    if (input_amount <= 0.0):
+        return ('Input amount should be a positive integer or float value')
+
     if input_src_curr == 'EU' or input_dest_curr == 'EU':
         return ("Source and destination currencies need to be provided in "
                 "three letter format e.g., USD")
@@ -92,38 +92,48 @@ def return_dest_curr_value():
     try:
         root = tree.getroot()
         # Fetch the part of the element tree that matches the input reference
-        # date provided. Her,e root[2] is the parent element of the dates,
+        # date provided. Here, root[2] is the parent element of the dates,
         # which in turn is the parent for the exchange rates
-        for date_child in root[2].findall(".//*[@time='" + input_date + "']"):
-            # Find the source and destination rates with reference to EUR on
-            # the provided reference date
-            # No rates for EUR in XML as EUR is the reference value,
-            # so handling conversions to and from EUR using initialization
-            if input_src_curr != 'EUR':
-                for src_curr_child in date_child.findall(".//*["
-                                                         "@currency='" +
-                                                         input_src_curr +
-                                                         "']"):
-                    src_rate_with_EUR = float(src_curr_child.attrib['rate'])
-                    break
+        date_child = root[2].findall(".//*[@time='" + input_date + "']")
+        # Find the source and destination rates with reference to EUR on
+        # the provided reference date
+        # No rates for EUR in XML as EUR is the reference value,
+        # so handling conversions to and from EUR using initialization
+        if input_src_curr != 'EUR':
+            src_curr_child = date_child[0].findall(".//*["
+                                                   "@currency='" +
+                                                   input_src_curr +
+                                                   "']")
+            if len(src_curr_child) > 0:
+                src_rate_with_EUR = float(src_curr_child[0].attrib['rate'])
+            else:
+                return (
+                    "Conversion rate not available for the source currency")
 
-            if dest_rate_with_EUR != 'EUR':
-                for dest_curr_child in date_child.findall(".//*["
-                                                          "@currency='" +
-                                                          input_dest_curr +
-                                                          "']"):
-                    dest_rate_with_EUR = float(dest_curr_child.attrib['rate'])
-                    break
+        if dest_rate_with_EUR != 'EUR':
+            dest_curr_child = date_child[0].findall(".//*["
+                                                    "@currency='" +
+                                                    input_dest_curr +
+                                                    "']")
+            if len(dest_curr_child) > 0:
+                dest_rate_with_EUR = float(dest_curr_child[0].attrib['rate'])
+            else:
+                return ("Conversion rate not available for the destination "
+                        "currency")
+
     except ParseError as parErr:
         raise (
             "Exception raised while parsing XML to fetch conversion rates- "
             "check XML content or input parameter values-  reference date or "
             "Source or destination currencies",
             parErr)
-        # Calculate the destination currency value using fetched rates
-    dest_curr_value = round(
-            ((input_amount / src_rate_with_EUR) * dest_rate_with_EUR), 2)
 
+    # Calculate the destination currency value using fetched rates
+    try:
+        dest_curr_value = round(
+                ((input_amount / src_rate_with_EUR) * dest_rate_with_EUR), 2)
+    except ZeroDivisionError as zd:
+        return ("Zero Division Error, check source currency rate:::", zd)
     # Return the calculated value and currency in json format
     return jsonify({"amount"  : dest_curr_value,
                     "currency": input_dest_curr})
