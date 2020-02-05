@@ -95,34 +95,40 @@ def return_dest_curr_value():
         # date provided. Here, root[2] is the parent element of the dates,
         # which in turn is the parent for the exchange rates
         date_child = root[2].findall(".//*[@time='" + input_date + "']")
-        # Find the source and destination rates with reference to EUR on
-        # the provided reference date
-        # No rates for EUR in XML as EUR is the reference value,
-        # so handling conversions to and from EUR using initialization
-        if input_src_curr != 'EUR':
-            src_curr_child = date_child[0].findall(".//*["
-                                                   "@currency='" +
-                                                   input_src_curr +
-                                                   "']")
-            if len(src_curr_child) > 0:
-                src_rate_with_EUR = float(src_curr_child[0].attrib['rate'])
-            else:
-                return (
-                    "Conversion rate not available for the source currency")
-
-        if dest_rate_with_EUR != 'EUR':
-            dest_curr_child = date_child[0].findall(".//*["
-                                                    "@currency='" +
-                                                    input_dest_curr +
-                                                    "']")
-            if len(dest_curr_child) > 0:
-                dest_rate_with_EUR = float(dest_curr_child[0].attrib['rate'])
-            else:
-                return ("Conversion rate not available for the destination "
+        if len(date_child) > 0:
+            # Find the source and destination rates with reference to EUR on
+            # the provided reference date
+            # No rates for EUR in XML as EUR is the reference value,
+            # so handling conversions to and from EUR using initialization
+            if input_src_curr != 'EUR':
+                src_curr_child = date_child[0].findall(".//*["
+                                                       "@currency='" +
+                                                       input_src_curr +
+                                                       "']")
+                if len(src_curr_child) > 0:
+                    src_rate_with_EUR = float(src_curr_child[0].attrib['rate'])
+                else:
+                    return (
+                        "Conversion rate not available for the source "
                         "currency")
 
+            if dest_rate_with_EUR != 'EUR':
+                dest_curr_child = date_child[0].findall(".//*["
+                                                        "@currency='" +
+                                                        input_dest_curr +
+                                                        "']")
+                if len(dest_curr_child) > 0:
+                    dest_rate_with_EUR = float(
+                            dest_curr_child[0].attrib['rate'])
+                else:
+                    return (
+                        "Conversion rate not available for the destination "
+                        "currency")
+        else:
+            return ("Conversion rates not available for the specified date")
+
     except ParseError as parErr:
-        raise (
+        return (
             "Exception raised while parsing XML to fetch conversion rates- "
             "check XML content or input parameter values-  reference date or "
             "Source or destination currencies",
