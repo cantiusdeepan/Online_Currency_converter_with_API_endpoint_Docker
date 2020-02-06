@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="990fff2a-7588-48fa-9a0a-064f851babdd" name="Default Changelist" comment="Final changes for PEP 8 compliance">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="990fff2a-7588-48fa-9a0a-064f851babdd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_converter_app.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_converter_app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -156,7 +152,7 @@
       <workItem from="1580742786690" duration="9925000" />
       <workItem from="1580828495508" duration="20298000" />
       <workItem from="1580927247073" duration="14967000" />
-      <workItem from="1580956276522" duration="4788000" />
+      <workItem from="1580956276522" duration="4987000" />
     </task>
     <task id="LOCAL-00001" summary="Added conversion logic">
       <created>1580838405779</created>
@@ -256,7 +252,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580960508961</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Final changes for PEP 8 compliance">
+      <created>1580961618789</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1580961618789</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -297,10 +300,10 @@
       <screen x="95" y="0" width="1185" height="720" />
     </state>
     <state x="368" y="90" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/95.0.1185.720@95.0.1185.720" timestamp="1580742754714" />
-    <state x="293" y="0" key="CommitChangelistDialog2" timestamp="1580961593147">
+    <state x="293" y="0" key="CommitChangelistDialog2" timestamp="1580961618017">
       <screen x="95" y="0" width="1185" height="720" />
     </state>
-    <state x="293" y="0" key="CommitChangelistDialog2/95.0.1185.720@95.0.1185.720" timestamp="1580961593147" />
+    <state x="293" y="0" key="CommitChangelistDialog2/95.0.1185.720@95.0.1185.720" timestamp="1580961618017" />
     <state x="468" y="117" key="FileChooserDialogImpl" timestamp="1580956396075">
       <screen x="95" y="0" width="1185" height="720" />
     </state>
@@ -325,10 +328,10 @@
       <screen x="95" y="0" width="1185" height="720" />
     </state>
     <state x="159" y="0" key="SettingsEditor/95.0.1185.720@95.0.1185.720" timestamp="1580961544079" />
-    <state x="280" y="95" key="Vcs.Push.Dialog.v2" timestamp="1580960511112">
+    <state x="280" y="95" key="Vcs.Push.Dialog.v2" timestamp="1580961786768">
       <screen x="95" y="0" width="1185" height="720" />
     </state>
-    <state x="280" y="95" key="Vcs.Push.Dialog.v2/95.0.1185.720@95.0.1185.720" timestamp="1580960511112" />
+    <state x="280" y="95" key="Vcs.Push.Dialog.v2/95.0.1185.720@95.0.1185.720" timestamp="1580961786768" />
     <state x="333" y="186" key="com.intellij.ide.util.TipDialog" timestamp="1580828544005">
       <screen x="95" y="0" width="1185" height="720" />
     </state>

@@ -25,7 +25,7 @@ The endpoint must accept HTTP GET requests.
  ### If docker unavailable:
  - To install the requisite libraries, run the following commands in the
   terminal
-    `pip install --upgrade pip`
+    `pip install --upgrade pip` and then run
     `pip install -r requirements.txt `
 - To run the project using docker:
 `python app.py`
