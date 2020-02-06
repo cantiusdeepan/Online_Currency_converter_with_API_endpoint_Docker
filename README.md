@@ -16,7 +16,7 @@ The endpoint must accept HTTP GET requests.
 ### If docker available:
 - To build the project run the following command 
 `docker build -t converterapp:latest .`
-- To run the project using docker:
+- To run the project using docker, run the following command :
 `docker run -it --name converterapp -d -p 5000:5000 converterapp`
 - This will make the API available. A sample URL: http://localhost:5000/convert?amount=25&reference_date=2020-02-04&src_currency=USD&dest_currency=INR
 - To run the configured test cases,run the following command in the terminal
@@ -27,7 +27,7 @@ The endpoint must accept HTTP GET requests.
   terminal
     `pip install --upgrade pip` and then run
     `pip install -r requirements.txt `
-- To run the project using docker:
+- To run the project, use following command:
 `python app.py`
 - This will make the API available. A sample URL: http://localhost:5000/convert?amount=25&reference_date=2020-02-04&src_currency=USD&dest_currency=INR
 - To run the configured test cases,run the following command in the terminal
