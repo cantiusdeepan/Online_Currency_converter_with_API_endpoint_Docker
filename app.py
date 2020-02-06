@@ -46,21 +46,26 @@ def return_dest_curr_value():
         now = datetime.now()
         if not (now - timedelta(days=90) <= ref_date <= now):
             return ('The reference date should be provided and be in the past '
-                    '90 days')
+                    '90 days'), 400
     except ValueError as ve:
-        return ("Reference date value must be passed in YYYY-mm-dd format:",
-                str(ve))
-    # To make sure missing zeros don't cause issues with date format matchng
-    # in XML.
+        return "Reference date value must be passed in YYYY-mm-dd format", 400
+    # To make sure missing zeros don't cause issues with date format matching
+    # in XML, we are converting the date back from date format to string
+    # with zero fill as required
     input_date = str(ref_date.date())
 
+    # Check amount passed is a positive value
     if (input_amount <= 0.0):
-        return ('Input amount should be provided and be a positive integer or '
-                'float value')
+        return 'Input amount should be provided and be a positive integer or ' \
+               '' \
+               '' \
+               'float value', 400
 
-    if input_src_curr == 'EU' or input_dest_curr == 'EU':
-        return ("Source and destination currencies need to be provided in "
-                "three letter format e.g., USD")
+    # Check to make sure, source and destination currencies are provided
+    if input_src_curr == 'EU' or input_dest_curr == 'EU' or input_src_curr \
+            == input_dest_curr:
+        return "Source and destination currencies need to be provided in " \
+               "three letter format e.g., USD", 400
     # Fetching the latest xml file for conversion rates and saving it locally
     # If unable to fetch latest xml, locally available file will be used
     try:
@@ -74,22 +79,20 @@ def return_dest_curr_value():
         with open('data/eurofxref-hist-90d.xml', 'w') as f:
             f.write(r.text)
     except requests.exceptions.HTTPError as httpErr:
-        print("HTTP error raised while fetching XML:", httpErr)
+        return "HTTP error raised while fetching XML:" + str(httpErr), 500
     except requests.exceptions.RequestException as reqErr:
-        # catastrophic error. bail.
-        print("Exception raised while fetching XML:", reqErr)
+        return "Exception raised while fetching XML:" + str(reqErr), 500
     except IOError:
-        print(
-                "Could not read local XML file check -> "
-                "data/eurofxref-hist-90d.xml")
+        return "Could not access local XML file check -> " \
+               "data/eurofxref-hist-90d.xml", 500
 
     # use the parse() function to load and parse an XML file
     try:
         tree = ET.parse("data/eurofxref-hist-90d.xml")
     except FileNotFoundError:
-        raise ("XML file not found to fetch rates to use for convention. "
-               "Either place conversion file locally or check if URL for "
-               "fetching latest XML is valid")
+        return "XML file not found to fetch rates to use for convention. " \
+               "Either place conversion file locally or check if URL for " \
+               "fetching latest XML is valid", 503
 
     # Initializing rates with reference to the EUR
     src_rate_with_EUR = 1
@@ -113,11 +116,10 @@ def return_dest_curr_value():
                 if len(src_curr_child) > 0:
                     src_rate_with_EUR = float(src_curr_child[0].attrib['rate'])
                 else:
-                    return (
-                        "Conversion rate not available for the source "
-                        "currency")
+                    return "Conversion rate not available for the source " \
+                           "currency", 501
 
-            if dest_rate_with_EUR != 'EUR':
+            if input_dest_curr != 'EUR':
                 dest_curr_child = date_child[0].findall(".//*["
                                                         "@currency='" +
                                                         input_dest_curr +
@@ -126,19 +128,19 @@ def return_dest_curr_value():
                     dest_rate_with_EUR = float(
                             dest_curr_child[0].attrib['rate'])
                 else:
-                    return (
-                        "Conversion rate not available for the destination "
-                        "currency")
+                    return "Conversion rate not available for the " \
+                           "destination currency", 501
         else:
-            return ("Conversion rates not available for the specified "
-                    "reference date")
+            return "Conversion rates not available for the specified " \
+                   "reference date", 501
 
     except ParseError as parErr:
-        return (
-            "Exception raised while parsing XML to fetch conversion rates- "
-            "check XML content or input parameter values-  reference date or "
-            "Source or destination currencies",
-            parErr)
+        return "Exception raised while parsing XML to fetch conversion " \
+               "rates- " \
+               "check XML content or input parameter values-  reference date " \
+               "" \
+               "or " \
+               "Source or destination currencies" + str(parErr), 500
 
     # Calculate the destination currency value using fetched rates
     try:
