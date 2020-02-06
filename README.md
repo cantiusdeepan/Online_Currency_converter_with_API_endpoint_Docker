@@ -12,7 +12,7 @@ The endpoint must accept HTTP GET requests.
 - Open command prompt/terminal with admin privileges
 - Change the current working directory in the terminal to the directory that
  contains the 'app.py' & Dockerfile from the cloned repository
- ##
+
 ### If docker available:
 - To build the project run the following command 
 `docker build -t converterapp:latest .`
@@ -21,7 +21,7 @@ The endpoint must accept HTTP GET requests.
 - This will make the API available. A sample URL: http://localhost:5000/convert?amount=25&reference_date=2020-02-04&src_currency=USD&dest_currency=INR
 - To run the configured test cases,run the following command in the terminal
  `docker container exec -it converterapp py.test`
- ##
+
  ### If docker unavailable:
  - To install the requisite libraries, run the following commands in the
   terminal
