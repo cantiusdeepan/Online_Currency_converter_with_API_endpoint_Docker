@@ -63,7 +63,8 @@ def return_dest_curr_value():
     if input_src_curr == 'EU' or input_dest_curr == 'EU' or input_src_curr \
             == input_dest_curr:
         return "Source and destination currencies need to be provided in " \
-               "three letter format e.g., USD", 400
+               "three letter format e.g., USD and source and destination " \
+               "currency cannot be the same", 400
     # Fetching the latest xml file for conversion rates and saving it locally
     # If unable to fetch latest xml, locally available file will be used
     try:
