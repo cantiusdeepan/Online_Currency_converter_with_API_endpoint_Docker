@@ -33,3 +33,6 @@ The endpoint must accept HTTP GET requests.
 - To run the configured test cases,run the following command in the terminal
  `py.test`
  ##
+
+_**Note:**_ The python code has been written in compliance with **PEP 8 Style Guide
+ for Python Code**

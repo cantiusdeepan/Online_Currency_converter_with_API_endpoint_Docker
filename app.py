@@ -1,4 +1,4 @@
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as eT
 from datetime import datetime, timedelta
 from xml.etree.ElementTree import ParseError
 
@@ -27,7 +27,7 @@ def return_dest_curr_value():
     dest_currency - The destination currency to which the amount will be
     coverted
 
-    :return: The destination currency and amount in JSON format
+ :return: The destination currency and amount in JSON format
     """
 
     # The  parameters from the URL are fetched and saved as local variables
@@ -47,7 +47,7 @@ def return_dest_curr_value():
         if not (now - timedelta(days=90) <= ref_date <= now):
             return ('The reference date should be provided and be in the past '
                     '90 days'), 400
-    except ValueError as ve:
+    except ValueError:
         return "Reference date value must be passed in YYYY-mm-dd format", 400
     # To make sure missing zeros don't cause issues with date format matching
     # in XML, we are converting the date back from date format to string
@@ -55,10 +55,8 @@ def return_dest_curr_value():
     input_date = str(ref_date.date())
 
     # Check amount passed is a positive value
-    if (input_amount <= 0.0):
-        return 'Input amount should be provided and be a positive integer or ' \
-               '' \
-               '' \
+    if input_amount <= 0.0:
+        return 'Input amount should be provided and be a positive integer or' \
                'float value', 400
 
     # Check to make sure, source and destination currencies are provided
@@ -88,15 +86,15 @@ def return_dest_curr_value():
 
     # use the parse() function to load and parse an XML file
     try:
-        tree = ET.parse("data/eurofxref-hist-90d.xml")
+        tree = eT.parse("data/eurofxref-hist-90d.xml")
     except FileNotFoundError:
         return "XML file not found to fetch rates to use for convention. " \
                "Either place conversion file locally or check if URL for " \
                "fetching latest XML is valid", 503
 
     # Initializing rates with reference to the EUR
-    src_rate_with_EUR = 1
-    dest_rate_with_EUR = 1
+    src_rate_with_eur = 1
+    dest_rate_with_eur = 1
     try:
         root = tree.getroot()
         # Fetch the part of the element tree that matches the input reference
@@ -114,7 +112,7 @@ def return_dest_curr_value():
                                                        input_src_curr +
                                                        "']")
                 if len(src_curr_child) > 0:
-                    src_rate_with_EUR = float(src_curr_child[0].attrib['rate'])
+                    src_rate_with_eur = float(src_curr_child[0].attrib['rate'])
                 else:
                     return "Conversion rate not available for the source " \
                            "currency", 501
@@ -125,7 +123,7 @@ def return_dest_curr_value():
                                                         input_dest_curr +
                                                         "']")
                 if len(dest_curr_child) > 0:
-                    dest_rate_with_EUR = float(
+                    dest_rate_with_eur = float(
                             dest_curr_child[0].attrib['rate'])
                 else:
                     return "Conversion rate not available for the " \
@@ -136,20 +134,18 @@ def return_dest_curr_value():
 
     except ParseError as parErr:
         return "Exception raised while parsing XML to fetch conversion " \
-               "rates- " \
-               "check XML content or input parameter values-  reference date " \
-               "" \
-               "or " \
-               "Source or destination currencies" + str(parErr), 500
+               "rates- check XML content or input parameter values-  " \
+               "reference date or Source or destination currencies" + str(
+                parErr), 500
 
-    # Calculate the destination currency value using fetched rates
+        # Calculate the destination currency value using fetched rates
     try:
-        dest_curr_value = round(
-                ((input_amount / src_rate_with_EUR) * dest_rate_with_EUR), 2)
-    except ZeroDivisionError as zd:
-        return ("Zero Division Error, check source currency rate:::", zd)
+        dest_curr_value: float = round(
+                ((input_amount / src_rate_with_eur) * dest_rate_with_eur), 2)
+    except ZeroDivisionError:
+        return "Zero Division Error, check source currency rate:::", 500
     # Return the calculated value and currency in json format
-    return jsonify({"amount"  : dest_curr_value,
+    return jsonify({"amount": dest_curr_value,
                     "currency": input_dest_curr})
 
 
