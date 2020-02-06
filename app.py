@@ -17,7 +17,7 @@ def return_dest_curr_value():
     method is called using a http GET request with the following four
     parameters.
 
-    Sample URL: http://localhost:8080/convert?amount=25&reference_date=2020
+    Sample URL: http://localhost:5000/convert?amount=25&reference_date=2020
     -02-04&src_currency=USD&dest_currency=INR
 
     amount - The amount in source currency that needs to be converted
