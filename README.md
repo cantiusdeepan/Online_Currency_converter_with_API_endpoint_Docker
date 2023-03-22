@@ -1,5 +1,5 @@
-# iGenius_Interview_assignment_Deepan_Anbarasan
- Online Currency converter with a web API endpoint
+# Online Currency converter with a web API endpoint
+ 
 >Assignment: Implement an online currency converter, providing a Web API
 > endpoint called convert.
 The endpoint must accept HTTP GET requests.
