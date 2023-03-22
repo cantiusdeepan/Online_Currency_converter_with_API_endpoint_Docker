@@ -5,7 +5,7 @@
 The endpoint must accept HTTP GET requests.
 
 ## pre-requisites
-- Docker desktop (or) computer with python 3.7.1 installed
+- Docker desktop (or) computer with python (>=3.7.1) installed
 
 ## Instructions to run project
 - Clone the github repository
